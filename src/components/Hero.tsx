@@ -1,70 +1,97 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 export default function Hero() {
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ delay: 2.8 }); // Wait for KENTO_O splash
+
+    // Heading: line-by-line clip reveal
+    if (headlineRef.current) {
+      const lines = headlineRef.current.querySelectorAll("span");
+      tl.fromTo(
+        lines,
+        { clipPath: "inset(100% 0 0 0)", y: 50 },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          y: 0,
+          duration: 0.95,
+          ease: "power3.out",
+          stagger: 0.15,
+        }
+      );
+    }
+
+    // Subtitle: fade + blur
+    if (subtitleRef.current) {
+      tl.fromTo(
+        subtitleRef.current,
+        { opacity: 0, y: 18, filter: "blur(6px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power3.out" },
+        "-=0.4"
+      );
+    }
+
+    // CTA buttons
+    if (ctaRef.current) {
+      tl.fromTo(
+        ctaRef.current.children,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.12 },
+        "-=0.4"
+      );
+    }
+  }, []);
+
   return (
-    <section className="relative flex items-center min-h-screen pt-16">
-      {/* Background gradient */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-      >
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container-custom relative z-10">
-        <div className="max-w-3xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-sm font-medium mb-8">
-            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-            Available for work
-          </div>
-
-          {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-            Hi, I&apos;m{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-              Your Name
+    <section className="relative flex items-center min-h-screen">
+      <div className="container-custom">
+        <div className="max-w-4xl">
+          {/* Headline — each line wrapped for staggered clip reveal */}
+          <h1
+            ref={headlineRef}
+            className="font-black text-white leading-[0.95] mb-8 tracking-tight"
+            style={{ fontSize: "clamp(3rem, 10vw, 7rem)" }}
+          >
+            <span className="block overflow-hidden">
+              <span className="block" style={{ clipPath: "inset(100% 0 0 0)" }}>Creative</span>
             </span>
-            .
+            <span className="block overflow-hidden">
+              <span className="block" style={{ clipPath: "inset(100% 0 0 0)" }}>Developer</span>
+            </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl sm:text-2xl text-white/60 leading-relaxed mb-8 max-w-2xl">
-            Full-stack developer specializing in building exceptional digital experiences.
-            I turn ideas into fast, scalable, and accessible web products.
+          <p
+            ref={subtitleRef}
+            className="text-xl sm:text-2xl leading-relaxed mb-12 max-w-xl opacity-0"
+            style={{ color: "var(--fg-muted)" }}
+          >
+            Building refined digital experiences with precision and purpose.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4">
-            <Link href="/projects" className="btn-primary">
-              View My Work
+          {/* CTA */}
+          <div ref={ctaRef} className="flex items-center gap-8">
+            <Link href="/projects" className="btn-primary opacity-0">
+              View Work
             </Link>
-            <Link href="/contact" className="btn-outline">
+            <Link href="/contact" className="link-underline text-sm uppercase tracking-widest font-medium opacity-0">
               Get In Touch
             </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-16 flex flex-wrap gap-12">
-            {[
-              { value: "5+", label: "Years experience" },
-              { value: "20+", label: "Projects shipped" },
-              { value: "10+", label: "Happy clients" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-3xl font-bold text-white">{stat.value}</p>
-                <p className="text-white/40 text-sm mt-1">{stat.label}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs">
-        <span>Scroll</span>
-        <svg className="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 text-xs uppercase tracking-widest">
+        <svg className="w-4 h-4 mx-auto animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
     </section>

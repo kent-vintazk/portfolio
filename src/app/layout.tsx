@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ScrollAnimations from "@/components/ScrollAnimations";
+import PageTransition from "@/components/PageTransition";
+import JsonLd from "@/components/JsonLd";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -15,13 +20,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Your Name",
-  description: "Full-stack developer portfolio showcasing projects and skills.",
-  keywords: ["developer", "portfolio", "web development", "full-stack"],
-  authors: [{ name: "Your Name" }],
+  title: "KENTO_O | Portfolio",
+  description: "Creative developer building refined digital experiences.",
+  keywords: ["developer", "portfolio", "web development", "creative"],
+  authors: [{ name: "KENTO_O" }],
   openGraph: {
-    title: "Portfolio | Your Name",
-    description: "Full-stack developer portfolio showcasing projects and skills.",
+    title: "KENTO_O | Portfolio",
+    description: "Creative developer building refined digital experiences.",
     type: "website",
   },
 };
@@ -32,11 +37,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <JsonLd />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <ScrollAnimations />
+          <PageTransition />
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

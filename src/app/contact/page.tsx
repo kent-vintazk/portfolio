@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact | Portfolio",
+  title: "Contact | KENTO_O",
   description: "Get in touch — I'm open to new opportunities and collaborations.",
 };
 
@@ -14,83 +15,28 @@ const socials = [
 
 export default function ContactPage() {
   return (
-    <div className="pt-24 pb-24">
+    <div className="pt-32 pb-32">
       <div className="container-custom">
         <div className="max-w-2xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Get In Touch</h1>
-          <p className="text-white/60 text-lg mb-12">
+          <h1
+            className="font-black text-white leading-[0.95] mb-4 tracking-tight"
+            style={{ fontSize: "clamp(2.5rem, 8vw, 5rem)" }}
+            data-reveal-heading
+          >
+            Get In Touch
+          </h1>
+          <p className="text-lg mb-16" data-reveal-blur style={{ color: "var(--fg-muted)" }}>
             I&apos;m currently open to new opportunities. Whether you have a project in mind,
             a question, or just want to say hi — my inbox is always open.
           </p>
 
           {/* Contact Form */}
-          <form className="space-y-6 mb-16" action="#" method="POST">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  placeholder="Your name"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30
-                             focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-2">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30
-                             focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-white/70 mb-2">
-                Subject
-              </label>
-              <input
-                id="subject"
-                name="subject"
-                type="text"
-                placeholder="What's this about?"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30
-                           focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-white/70 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                required
-                placeholder="Tell me about your project or just say hi..."
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30
-                           focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
-              />
-            </div>
-            <button type="submit" className="btn-primary w-full sm:w-auto">
-              Send Message
-            </button>
-          </form>
+          <ContactForm />
 
           {/* Socials */}
-          <div>
-            <h2 className="text-xl font-semibold text-white mb-6">Find me elsewhere</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div data-reveal>
+            <h2 className="text-xs font-medium uppercase tracking-widest text-white/35 mb-6">Find me elsewhere</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-reveal-stagger>
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -99,8 +45,8 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="card flex items-center justify-between group"
                 >
-                  <span className="text-white/70 group-hover:text-white transition-colors">{s.label}</span>
-                  <span className="text-indigo-400 text-sm font-mono">{s.handle}</span>
+                  <span className="text-white/35 group-hover:text-white transition-colors duration-300">{s.label}</span>
+                  <span className="text-[#4d65ff] text-sm font-mono">{s.handle}</span>
                 </a>
               ))}
             </div>

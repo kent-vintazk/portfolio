@@ -1,0 +1,41 @@
+---
+title: "Building My Portfolio with Next.js"
+description: "A look at the design decisions, tech stack, and motion design behind this portfolio site."
+date: "2026-04-01"
+tags: ["Next.js", "Design", "GSAP"]
+published: true
+---
+
+# Building My Portfolio with Next.js
+
+Every developer needs a home on the internet. This is how I built mine.
+
+## The Stack
+
+I chose **Next.js 16** with the App Router for its server components, file-based routing, and built-in optimizations. The styling is handled entirely by **Tailwind CSS** — no component libraries, no CSS modules, just utility classes and a small set of custom design tokens.
+
+## Design Philosophy
+
+The design is inspired by dark luxury minimalism — think editorial sophistication with restraint. Every element earns its place on the page:
+
+- **Pure black backgrounds** with high-contrast white text
+- **Electric blue (#4d65ff)** as the sole accent color
+- **Large, bold typography** with tight tracking for headlines
+- **Generous whitespace** between sections for breathing room
+
+## Motion & Animation
+
+I'm using **GSAP with ScrollTrigger** for all scroll-based animations. The key effects:
+
+- **Clip-path reveals** on headings — text slides up from behind a mask
+- **Blur-to-clear** fades on body text and cards
+- **Staggered reveals** so elements cascade into view naturally
+- **Cursor-tracking glow** on project cards for interactivity
+
+The splash screen uses a simple phase-based state machine in React — entering, visible, exiting, done — with CSS transforms for the slide-up exit.
+
+## What I Learned
+
+Building a portfolio is deceptively hard. The code is straightforward, but the design decisions — what to include, what to cut, how much motion is too much — take the most time.
+
+If I could give one piece of advice: **ship it before it's perfect**. You can always iterate.
