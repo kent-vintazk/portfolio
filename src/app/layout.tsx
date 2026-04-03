@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   description: "Creative developer building refined digital experiences.",
   keywords: ["developer", "portfolio", "web development", "creative"],
   authors: [{ name: "KENTO_O" }],
+  icons: {
+    icon: "/favicon.jpg",
+  },
   openGraph: {
     title: "KENTO_O | Portfolio",
     description: "Creative developer building refined digital experiences.",
@@ -41,7 +44,7 @@ export default function RootLayout({
       <head>
         <JsonLd />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
         <ThemeProvider>
           <ScrollAnimations />
           <PageTransition />

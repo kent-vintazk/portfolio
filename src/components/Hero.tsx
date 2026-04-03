@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import ParticleBackground from "./ParticleBackground";
 
 export default function Hero() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -50,8 +51,21 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative flex items-center min-h-screen">
-      <div className="container-custom">
+    <section
+      className="relative flex items-center min-h-screen overflow-hidden"
+      style={{
+        backgroundImage: "url('/images/bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      {/* Particle animation layer */}
+      <ParticleBackground />
+
+      {/* Background overlay for readability - minimal opacity */}
+      <div className="absolute inset-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", zIndex: 2 }} />
+      <div className="container-custom relative z-10">
         <div className="max-w-4xl">
           {/* Headline — each line wrapped for staggered clip reveal */}
           <h1
@@ -60,10 +74,7 @@ export default function Hero() {
             style={{ fontSize: "clamp(3rem, 10vw, 7rem)" }}
           >
             <span className="block overflow-hidden">
-              <span className="block" style={{ clipPath: "inset(100% 0 0 0)" }}>Creative</span>
-            </span>
-            <span className="block overflow-hidden">
-              <span className="block" style={{ clipPath: "inset(100% 0 0 0)" }}>Developer</span>
+              <span className="block" style={{ clipPath: "inset(100% 0 0 0)" }}>KENTO_O</span>
             </span>
           </h1>
 
@@ -89,7 +100,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 text-xs uppercase tracking-widest">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 text-xs uppercase tracking-widest z-10">
         <svg className="w-4 h-4 mx-auto animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
         </svg>
