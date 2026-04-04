@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
@@ -16,13 +17,74 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const lettersRef = useRef<HTMLSpanElement[]>([]);
+
+  // Wave effect on mouse move
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (lettersRef.current.length === 0) return;
+
+      lettersRef.current.forEach((letterEl) => {
+        if (!letterEl) return;
+
+        const letterRect = letterEl.getBoundingClientRect();
+        const letterX = letterRect.left + letterRect.width / 2;
+        const letterY = letterRect.top + letterRect.height / 2;
+
+        // Distance from mouse
+        const dx = letterX - e.clientX;
+        const dy = letterY - e.clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Wave effect - letters move based on proximity
+        const waveRadius = 120;
+        const maxOffset = 20;
+
+        if (distance < waveRadius) {
+          const wave = Math.cos((distance / waveRadius) * Math.PI) * maxOffset;
+          gsap.to(letterEl, {
+            y: wave,
+            rotation: (wave / maxOffset) * 10,
+            duration: 0.15,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        } else {
+          gsap.to(letterEl, {
+            y: 0,
+            rotation: 0,
+            duration: 0.4,
+            ease: "elastic.out",
+            overwrite: "auto",
+          });
+        }
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-transparent backdrop-blur-md">
+    <header className="fixed top-0 inset-x-0 z-50 bg-transparent">
       <div className="container-custom flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="text-white font-bold text-lg tracking-tight hover:opacity-70 transition-opacity duration-300">
-          KENTO_O<span className="text-[#4d65ff]">.</span>
+        <Link href="/" className="text-white font-black text-4xl tracking-tight hover:opacity-70 transition-opacity duration-300 inline-block">
+          {["K", "E", "N", "T", "O", "_", "O"].map((letter, i) => (
+            <span
+              key={i}
+              ref={(el) => {
+                if (el) lettersRef.current[i] = el;
+              }}
+              style={{
+                display: "inline-block",
+                position: "relative",
+              }}
+            >
+              {letter}
+            </span>
+          ))}
+          <span className="text-[#4d65ff]">.</span>
         </Link>
 
         {/* Desktop Nav */}

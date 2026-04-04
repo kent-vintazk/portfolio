@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import PageTransition from "@/components/PageTransition";
+import PageScaleTransition from "@/components/PageScaleTransition";
+import KENTO_O from "@/components/KENTO_O";
 import JsonLd from "@/components/JsonLd";
 import ThemeProvider from "@/components/ThemeProvider";
 
@@ -45,12 +47,15 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        <KENTO_O />
         <ThemeProvider>
           <ScrollAnimations />
           <PageTransition />
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <PageScaleTransition>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </PageScaleTransition>
         </ThemeProvider>
         <Analytics />
       </body>
