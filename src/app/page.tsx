@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
 import Hero from "@/components/Hero";
+import IntroSection from "@/components/IntroSection";
 import ProjectCard from "@/components/ProjectCard";
 import KENTO_O from "@/components/KENTO_O";
 import Link from "next/link";
@@ -7,9 +11,11 @@ import { getFeaturedProjects } from "@/data/projects";
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
 
+
   return (
     <>
       <KENTO_O />
+      <IntroSection />
       <Hero />
 
       {/* Featured Projects */}

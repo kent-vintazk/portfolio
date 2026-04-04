@@ -60,17 +60,19 @@ export default function KENTO_O() {
       // O_O blink animation (like blinking eyes)
       // Start blinking after text has spread (1.5s delay)
       gsap.delayedCall(1.5, () => {
-        gsap.timeline({ repeat: 2 }).to(ooRef.current, {
-          scaleY: 0.1,
-          duration: 0.15,
-          ease: "sine.inOut",
-        })
-          .to(ooRef.current, {
-            scaleY: 1,
+        if (ooRef.current) {
+          gsap.timeline({ repeat: 2 }).to(ooRef.current, {
+            scaleY: 0.1,
             duration: 0.15,
             ease: "sine.inOut",
-          }, 0.2)
-          .to({}, {}, 0.6); // Delay between blinks
+          })
+            .to(ooRef.current, {
+              scaleY: 1,
+              duration: 0.15,
+              ease: "sine.inOut",
+            }, 0.2)
+            .to({}, {}, 0.6); // Delay between blinks
+        }
       });
 
       // Stay spread for 2 seconds, then done

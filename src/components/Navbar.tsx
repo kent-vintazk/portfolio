@@ -17,6 +17,7 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(false);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
 
   // Wave effect on mouse move
@@ -65,30 +66,28 @@ export default function Navbar() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-transparent">
-      <div className="container-custom flex items-center justify-between h-16">
-        {/* Logo */}
-        <Link href="/" className="text-white font-black text-4xl tracking-tight hover:opacity-70 transition-opacity duration-300 inline-block">
-          {["K", "E", "N", "T", "O", "_", "O"].map((letter, i) => (
-            <span
-              key={i}
-              ref={(el) => {
-                if (el) lettersRef.current[i] = el;
-              }}
-              style={{
-                display: "inline-block",
-                position: "relative",
-              }}
-            >
-              {letter}
-            </span>
-          ))}
-          <span className="text-[#4d65ff]">.</span>
-        </Link>
+  // Show navbar only when Hero section is visible
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroElement = document.getElementById("hero-section");
+      if (heroElement) {
+        const rect = heroElement.getBoundingClientRect();
+        // Show navbar when Hero section is at or above viewport
+        setShowNavbar(rect.top <= window.innerHeight && rect.bottom >= 0);
+      }
+    };
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Check on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header className={`fixed top-3 inset-x-0 z-50 bg-transparent transition-opacity duration-300 ${showNavbar ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+      <div className="container-custom flex items-center justify-center h-16 relative">
+
+        {/* Desktop Nav - Centered */}
+        <nav className="hidden md:flex items-center gap-8 justify-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -102,8 +101,12 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <ThemeToggle />
         </nav>
+
+        {/* Right Side - Theme Toggle (Absolute positioning) */}
+        <div className="hidden md:flex absolute right-0">
+          <ThemeToggle />
+        </div>
 
         {/* Mobile Hamburger */}
         <button

@@ -89,5 +89,21 @@
   }
 }
 
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+}
+
 /* GSAP handles all scroll-triggered animations via data-reveal attributes.
    See ScrollAnimations.tsx for the controller. */

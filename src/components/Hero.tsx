@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ParticleBackground from "./ParticleBackground";
+import SpiralImage from "@/Images/spiral.png";
 
 export default function Hero() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -116,61 +117,77 @@ export default function Hero() {
 
   return (
     <section
+      id="hero-section"
       className="relative flex items-center min-h-screen overflow-hidden"
       style={{
         backgroundImage: "url('/images/bg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-        WebkitMaskImage: `linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,${Math.max(0, scrollOpacity * 0.5)}) 100%)`,
-        maskImage: `linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,${Math.max(0, scrollOpacity * 0.5)}) 100%)`,
       }}
     >
       {/* Particle animation layer */}
       <ParticleBackground />
 
-      {/* Background overlay for readability - minimal opacity */}
-      <div className="absolute inset-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)", zIndex: 2 }} />
+      {/* Center Tagline */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center pointer-events-none" data-reveal>
+        <p className="text-xs sm:text-sm uppercase tracking-widest text-white/25">
+          Design with Purpose, Build with Precision
+        </p>
+      </div>
 
-      {/* Bottom Section - Design Credit, Tagline & Location */}
+      {/* Bottom Section - Redesigned Layout */}
       <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10">
-        <div className="container-custom py-8">
-          <div className="grid grid-cols-2 gap-6 items-start">
-            {/* Design Credit - Left with Glass Box */}
+        <div className="container-custom py-12">
+          <div className="grid grid-cols-3 gap-8 items-end">
+            {/* Left - Social Links */}
+            <div data-reveal>
+              <div className="flex flex-col gap-3">
+                <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Follow</p>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
+                  Instagram
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
+                  Facebook
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+
+            {/* Center - Glass Box */}
             <div
               data-reveal
               style={{
-                border: "1px solid rgba(255, 255, 255, 0.2)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
                 backdropFilter: "blur(10px)",
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
-                padding: "1.25rem",
-                maxWidth: "250px",
-                minHeight: "280px",
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                padding: "2rem",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                minHeight: "240px",
               }}
             >
-              <h3 className="text-sm sm:text-base font-black text-white leading-tight mb-4 text-left">
+              <h3 className="text-sm sm:text-base font-black text-white leading-tight mb-6">
                 Designed & developed<br />
                 by Kendrick Serrano <br />
-                 ケンドリック・セラーノ
-
+                <span className="text-white/50">ケンドリック・セラーノ</span>
               </h3>
-              <div className="border-t border-dashed border-white/30 my-4" />
-              <p className="text-sm text-white/60 text-right">
+              <div className="border-t border-white/20 my-4" />
+              <p className="text-xs text-white/50 leading-relaxed">
                 Crafting refined digital experiences with precision and purpose.
               </p>
             </div>
 
+            {/* Right - Location */}
+            <div data-reveal className="text-right">
+              <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Location</p>
+              <p className="text-sm text-white">Zamboanga City<br />Philippines</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Location - Bottom Right */}
-      <div className="absolute bottom-8 right-8 z-10" data-reveal>
-        <p className="text-xs uppercase tracking-widest text-white/50 mb-2">Location</p>
-        <p className="text-base text-white">Zamboanga City, Philippines</p>
       </div>
 
 
