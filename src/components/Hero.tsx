@@ -10,13 +10,13 @@ export default function Hero() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
+  const manifestoRef = useRef<HTMLDivElement>(null);
   const [scrollOpacity, setScrollOpacity] = useState(1);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const heroHeight = window.innerHeight;
-      // Smoother fade out gradient as you scroll past hero
       const opacity = Math.max(0, 1 - scrollY / (heroHeight * 1.2));
       setScrollOpacity(opacity);
     };
@@ -26,9 +26,38 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 2.8 }); // Wait for KENTO_O splash
+    const tl = gsap.timeline({ delay: 2.8 });
 
-    // Heading: line-by-line clip reveal
+    // Manifesto text reveal
+    if (manifestoRef.current) {
+      const rows = manifestoRef.current.querySelectorAll(".manifesto-row");
+      tl.fromTo(
+        rows,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.2,
+        }
+      );
+
+      // Dots pop in
+      const dots = manifestoRef.current.querySelectorAll(".manifesto-dot");
+      tl.fromTo(
+        dots,
+        { scale: 0 },
+        {
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(3)",
+          stagger: 0.05,
+        },
+        "-=0.6"
+      );
+    }
+
     if (headlineRef.current) {
       const lines = headlineRef.current.querySelectorAll("span");
       tl.fromTo(
@@ -44,7 +73,6 @@ export default function Hero() {
       );
     }
 
-    // Subtitle: fade + blur
     if (subtitleRef.current) {
       tl.fromTo(
         subtitleRef.current,
@@ -54,7 +82,6 @@ export default function Hero() {
       );
     }
 
-    // CTA buttons
     if (ctaRef.current) {
       tl.fromTo(
         ctaRef.current.children,
@@ -81,12 +108,10 @@ export default function Hero() {
         const letterX = letterRect.left - rect.left + letterRect.width / 2;
         const letterY = letterRect.top - rect.top + letterRect.height / 2;
 
-        // Distance from mouse
         const dx = letterX - mouseX;
         const dy = letterY - mouseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Wave effect - letters move based on proximity
         const waveRadius = 150;
         const maxOffset = 25;
 
@@ -126,70 +151,97 @@ export default function Hero() {
         backgroundAttachment: "fixed",
       }}
     >
-      {/* Particle animation layer */}
       <ParticleBackground />
 
-      {/* Center Tagline */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center pointer-events-none" data-reveal>
-        <p className="text-xs sm:text-sm uppercase tracking-widest text-white/25">
-          Design with Purpose, Build with Precision
-        </p>
-      </div>
+      {/* Manifesto Text - Upper Middle */}
+      <div
+        ref={manifestoRef}
+        className="absolute top-[12%] left-1/2 -translate-x-1/2 z-10 w-full max-w-xl px-6 pointer-events-none"
+      >
+        {/* Row 1 */}
+        <div className="manifesto-row flex items-start justify-between gap-4 mb-8 opacity-0">
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-2 flex-shrink-0" />
+          <p
+            className="text-center font-black text-lg leading-tight"
+            style={{ color: "#F5F5F5" }}
+          >
+            Design shapes the world
+            <br />
+            not as decoration, but as a
+            <br />
+            force that leaves a mark.
+          </p>
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-2 flex-shrink-0" />
+        </div>
 
-      {/* Bottom Section - Redesigned Layout */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10">
-        <div className="container-custom py-12">
-          <div className="grid grid-cols-3 gap-8 items-end">
-            {/* Left - Social Links */}
-            <div data-reveal>
-              <div className="flex flex-col gap-3">
-                <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Follow</p>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
-                  Instagram
-                </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
-                  Facebook
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-sm text-white/60 hover:text-white transition-colors duration-300">
-                  LinkedIn
-                </a>
-              </div>
-            </div>
+        {/* Row 2 */}
+        <div className="manifesto-row flex items-start justify-between gap-4 mb-8 opacity-0">
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-3 flex-shrink-0" />
+          <p
+            className="text-center font-black text-lg leading-tight"
+            style={{ color: "#F5F5F5" }}
+          >
+            It defines how your
+            <br />
+            brand is perceived and
+            <br />
+            how it&apos;s experienced.
+          </p>
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-3 flex-shrink-0" />
+        </div>
 
-            {/* Center - Glass Box */}
-            <div
-              data-reveal
-              style={{
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                backdropFilter: "blur(10px)",
-                backgroundColor: "rgba(0, 0, 0, 0.2)",
-                padding: "2rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                minHeight: "240px",
-              }}
-            >
-              <h3 className="text-sm sm:text-base font-black text-white leading-tight mb-6">
-                Designed & developed<br />
-                by Kendrick Serrano <br />
-                <span className="text-white/50">ケンドリック・セラーノ</span>
-              </h3>
-              <div className="border-t border-white/20 my-4" />
-              <p className="text-xs text-white/50 leading-relaxed">
-                Crafting refined digital experiences with precision and purpose.
-              </p>
-            </div>
-
-            {/* Right - Location */}
-            <div data-reveal className="text-right">
-              <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Location</p>
-              <p className="text-sm text-white">Zamboanga City<br />Philippines</p>
-            </div>
-          </div>
+        {/* Row 3 */}
+        <div className="manifesto-row flex items-start justify-between gap-4 opacity-0">
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-1 flex-shrink-0" />
+          <p
+            className="text-center font-black text-lg leading-tight"
+            style={{ color: "#F5F5F5" }}
+          >
+            Leave yours.
+          </p>
+          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-1 flex-shrink-0" />
         </div>
       </div>
 
+      {/* Location - Fixed to very right */}
+      <div className="absolute bottom-12 right-8 z-10 text-right">
+        <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Location</p>
+        <p className="text-sm text-white">
+          Zamboanga City
+          <br />
+          Philippines
+        </p>
+      </div>
+
+      {/* Bottom Section - Glass Box */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10">
+        <div className="container-custom py-12">
+          <div
+            style={{
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              padding: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              maxWidth: "400px",
+            }}
+          >
+            <h3 className="text-sm sm:text-base font-black text-white leading-tight mb-6">
+              Designed & developed
+              <br />
+              by Kendrick Serrano
+              <br />
+              <span className="text-white/50">ケンドリック・セラーノ</span>
+            </h3>
+            <div className="border-t border-white/20 my-4" />
+            <p className="text-xs text-white/50 leading-relaxed">
+              Crafting refined digital experiences with precision and purpose.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Scroll indicator */}
       <div

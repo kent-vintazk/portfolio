@@ -11,6 +11,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import KENTO_O from "@/components/KENTO_O";
 import JsonLd from "@/components/JsonLd";
 import ThemeProvider from "@/components/ThemeProvider";
+import CustomCursor from "@/components/CustomCursor";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -47,7 +48,8 @@ export default function RootLayout({
       <head>
         <JsonLd />
       </head>
-      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} font-sans cursor-none`}>
+        <CustomCursor />
         <ScrollProgress />
         <KENTO_O />
         <ThemeProvider>

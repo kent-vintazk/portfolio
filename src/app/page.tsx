@@ -11,6 +11,16 @@ import { getFeaturedProjects } from "@/data/projects";
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
 
+  useEffect(() => {
+    // Scroll to hero section on page load
+    setTimeout(() => {
+      const heroElement = document.getElementById("hero-section");
+      if (heroElement) {
+        const heroPosition = heroElement.offsetTop;
+        window.scrollTo({ top: heroPosition, behavior: "auto" });
+      }
+    }, 500);
+  }, []);
 
   return (
     <>

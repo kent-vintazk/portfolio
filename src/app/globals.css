@@ -36,6 +36,13 @@
 
   html {
     @apply scroll-smooth;
+    /* Hide scrollbar but keep scrolling */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 }
 

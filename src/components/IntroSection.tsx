@@ -91,7 +91,7 @@ export default function IntroSection() {
       </div>
 
       {/* Top Quote */}
-      <div className="absolute top-16 left-0 right-0 z-20 px-8" data-reveal>
+      <div className="absolute top-16 left-0 right-0 z-20 px-8">
         <p className="text-center text-sm sm:text-base max-w-2xl mx-auto text-white/60 leading-relaxed">
           Design is not just what it looks like and feels like. Design is how it works.
         </p>
@@ -102,7 +102,7 @@ export default function IntroSection() {
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
             {/* Left - Bio & Tools */}
-            <div data-reveal className="space-y-8">
+            <div className="space-y-8">
               {/* Bio Card */}
               <div className="pb-8 border-b border-white/10">
                 <p className="text-xs uppercase tracking-widest text-white/40 mb-4">About Me</p>
@@ -145,7 +145,7 @@ export default function IntroSection() {
             </div>
 
             {/* Right - Project Slideshow */}
-            <div data-reveal className="relative h-48 sm:h-56 rounded-lg overflow-hidden bg-white/5 border border-white/10">
+            <div className="relative h-48 sm:h-56 rounded-lg overflow-hidden bg-white/5 border border-white/10">
               {projectScreenshots.map((image, idx) => (
                 <div
                   key={idx}

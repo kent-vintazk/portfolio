@@ -1,0 +1,95 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+export default function CustomCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    // Smooth lerp animation loop
+    const animate = () => {
+      // Ease factor — lower = smoother/laggier, higher = snappier
+      const ease = 0.15;
+      currentX += (mouseX - currentX) * ease;
+      currentY += (mouseY - currentY) * ease;
+
+      cursor.style.left = currentX + "px";
+      cursor.style.top = currentY + "px";
+
+      requestAnimationFrame(animate);
+    };
+
+    const handleMouseLeave = () => {
+      cursor.style.opacity = "0";
+    };
+
+    const handleMouseEnter = () => {
+      cursor.style.opacity = "1";
+    };
+
+    // Scale up on clickable elements
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const isClickable =
+        target.tagName === "A" ||
+        target.tagName === "BUTTON" ||
+        target.closest("a") ||
+        target.closest("button") ||
+        window.getComputedStyle(target).cursor === "pointer";
+
+      if (isClickable) {
+        cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
+      }
+    };
+
+    const handleMouseOut = () => {
+      cursor.style.transform = "translate(-50%, -50%) scale(1)";
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+
+    const frameId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={cursorRef}
+      className="pointer-events-none fixed z-[9999] rounded-full"
+      style={{
+        width: "20px",
+        height: "20px",
+        backgroundColor: "white",
+        mixBlendMode: "difference",
+        transform: "translate(-50%, -50%)",
+        transition: "transform 0.3s ease, opacity 0.3s ease",
+        opacity: 1,
+      }}
+    />
+  );
+}
