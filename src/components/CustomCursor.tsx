@@ -9,6 +9,22 @@ export default function CustomCursor() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
+    // Check if device is touch device
+    const isTouchDevice = () => {
+      return (
+        (typeof window !== "undefined" &&
+          ("ontouchstart" in window ||
+            (navigator && "maxTouchPoints" in navigator && navigator.maxTouchPoints > 0))) ||
+        false
+      );
+    };
+
+    // Hide cursor on touch devices
+    if (isTouchDevice()) {
+      cursor.style.display = "none";
+      return;
+    }
+
     let mouseX = 0;
     let mouseY = 0;
     let currentX = 0;
@@ -21,7 +37,6 @@ export default function CustomCursor() {
 
     // Smooth lerp animation loop
     const animate = () => {
-      // Ease factor — lower = smoother/laggier, higher = snappier
       const ease = 0.15;
       currentX += (mouseX - currentX) * ease;
       currentY += (mouseY - currentY) * ease;
@@ -80,7 +95,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className="pointer-events-none fixed z-[9999] rounded-full"
+      className="pointer-events-none fixed z-[9999] rounded-full hidden md:block"
       style={{
         width: "20px",
         height: "20px",

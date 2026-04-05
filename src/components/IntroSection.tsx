@@ -27,6 +27,8 @@ const projectScreenshots = [
   "/images/projects/Screenshot%202025-07-03%20184020.png",
 ];
 
+const techIcons = [Code, Smartphone, GitBranch, Zap, Code2, Database, Square, Palette, Command, Workflow];
+
 export default function IntroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -39,7 +41,6 @@ export default function IntroSection() {
       const rect = section.getBoundingClientRect();
       const scrollPercent = Math.max(0, -rect.top / rect.height);
 
-      // Fade out and move with scroll direction
       gsap.to(section, {
         opacity: Math.max(0, 1 - scrollPercent),
         y: window.scrollY * 0.5,
@@ -53,7 +54,6 @@ export default function IntroSection() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto-slide projects
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % projectScreenshots.length);
@@ -64,7 +64,7 @@ export default function IntroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-auto overflow-hidden"
+      className="relative w-full overflow-hidden"
       style={{
         backgroundImage: `url(${IntroImage.src})`,
         backgroundSize: "cover",
@@ -73,112 +73,164 @@ export default function IntroSection() {
         minHeight: "100vh",
       }}
     >
-      {/* Overlay for readability */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* Large KENTO_O Text - Top */}
-      <div className="absolute top-2 left-0 right-0 z-10 pt-12 flex justify-center">
-        <h1
-          className="font-black text-white leading-none text-center pointer-events-none"
-          style={{
-            fontSize: "clamp(6rem, 20vw, 15rem)",
-            textShadow: "0 0 40px rgba(0, 255, 136, 0.3)",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          KENTO_O
-        </h1>
-      </div>
+      {/* ===== MOBILE LAYOUT (flow-based, visible below md) ===== */}
+      <div className="relative z-10 flex flex-col min-h-screen md:hidden">
+        {/* Top — Quote + Title */}
+        <div className="flex-shrink-0 pt-16 pb-6 px-5 text-center">
+          <p className="text-xs max-w-md mx-auto text-white/60 leading-relaxed mb-5">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </p>
+          <h1
+            className="font-black text-white leading-none pointer-events-none"
+            style={{
+              fontSize: "clamp(3rem, 18vw, 6rem)",
+              textShadow: "0 0 40px rgba(0, 255, 136, 0.3)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            KENTO_O
+          </h1>
+        </div>
 
-      {/* Top Quote */}
-      <div className="absolute top-16 left-0 right-0 z-20 px-8">
-        <p className="text-center text-sm sm:text-base max-w-2xl mx-auto text-white/60 leading-relaxed">
-          Design is not just what it looks like and feels like. Design is how it works.
-        </p>
-      </div>
+        {/* Spacer */}
+        <div className="flex-1" />
 
-      {/* Bottom Section - Bio & Tools with Slideshow */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/95 to-transparent pt-20 pb-12">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-            {/* Left - Bio & Tools */}
-            <div className="space-y-8">
-              {/* Bio Card */}
-              <div className="pb-8 border-b border-white/10">
-                <p className="text-xs uppercase tracking-widest text-white/40 mb-4">About Me</p>
-                <p className="text-lg sm:text-xl font-light leading-relaxed text-white/75">
-                  A BSIT student at WMSU, with academic and professional experience in development, operation management and communication.
-                </p>
-              </div>
+        {/* Bottom — Bio, Tools, Slideshow */}
+        <div className="flex-shrink-0 bg-gradient-to-t from-black via-black/95 to-transparent pt-14 pb-8 px-5">
+          {/* Bio */}
+          <div className="pb-6 border-b border-white/10 mb-6">
+            <p className="text-xs uppercase tracking-widest text-white/40 mb-3">About Me</p>
+            <p className="text-base font-light leading-relaxed text-white/75">
+              A BSIT student at WMSU, with academic and professional experience in development, operation management and communication.
+            </p>
+          </div>
 
-              {/* Tools Section */}
-              <div>
-                <p className="text-xs uppercase tracking-widest text-white/40 mb-5">Tech Stack</p>
-                <div className="overflow-hidden">
-                  <div className="flex gap-8 animate-marquee whitespace-nowrap">
-                    {/* First set */}
-                    <Code size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Smartphone size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <GitBranch size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Zap size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Code2 size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Database size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Square size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Palette size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Command size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Workflow size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-
-                    {/* Duplicate for seamless loop */}
-                    <Code size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Smartphone size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <GitBranch size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Zap size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Code2 size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Database size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Square size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Palette size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Command size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                    <Workflow size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right - Project Slideshow */}
-            <div className="relative h-48 sm:h-56 rounded-lg overflow-hidden bg-white/5 border border-white/10">
-              {projectScreenshots.map((image, idx) => (
-                <div
-                  key={idx}
-                  className={`absolute inset-0 transition-opacity duration-1000 ${
-                    idx === currentSlide ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{
-                    backgroundImage: `url(${image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
-              ))}
-
-              {/* Slide indicators */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                {projectScreenshots.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentSlide(idx)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === currentSlide
-                        ? "bg-white w-6"
-                        : "bg-white/30 hover:bg-white/50"
-                    }`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
+          {/* Tech Stack */}
+          <div className="mb-6">
+            <p className="text-xs uppercase tracking-widest text-white/40 mb-4">Tech Stack</p>
+            <div className="overflow-hidden">
+              <div className="flex gap-6 animate-marquee whitespace-nowrap">
+                {[...techIcons, ...techIcons].map((Icon, i) => (
+                  <Icon key={i} size={20} className="text-white/60 flex-shrink-0" />
                 ))}
               </div>
             </div>
           </div>
+
+          {/* Slideshow */}
+          <div className="relative h-44 rounded-lg overflow-hidden bg-white/5 border border-white/10">
+            {projectScreenshots.map((image, idx) => (
+              <div
+                key={idx}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  idx === currentSlide ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            ))}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+              {projectScreenshots.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                    idx === currentSlide ? "bg-white w-5" : "bg-white/30"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* ===== DESKTOP LAYOUT (absolute positioned, visible from md up) ===== */}
+      <>
+        {/* Large KENTO_O Text */}
+        <div className="hidden md:flex absolute top-2 left-0 right-0 z-10 pt-12 justify-center">
+          <h1
+            className="font-black text-white leading-none text-center pointer-events-none"
+            style={{
+              fontSize: "clamp(6rem, 20vw, 15rem)",
+              textShadow: "0 0 40px rgba(0, 255, 136, 0.3)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            KENTO_O
+          </h1>
+        </div>
+
+        {/* Top Quote */}
+        <div className="hidden md:block absolute top-16 left-0 right-0 z-20 px-8">
+          <p className="text-center text-sm sm:text-base max-w-2xl mx-auto text-white/60 leading-relaxed">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </p>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/95 to-transparent pt-20 pb-12">
+          <div className="container-custom">
+            <div className="grid grid-cols-2 gap-12 items-end">
+              {/* Left — Bio & Tools */}
+              <div className="space-y-8">
+                <div className="pb-8 border-b border-white/10">
+                  <p className="text-xs uppercase tracking-widest text-white/40 mb-4">About Me</p>
+                  <p className="text-lg sm:text-xl font-light leading-relaxed text-white/75">
+                    A BSIT student at WMSU, with academic and professional experience in development, operation management and communication.
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-white/40 mb-5">Tech Stack</p>
+                  <div className="overflow-hidden">
+                    <div className="flex gap-8 animate-marquee whitespace-nowrap">
+                      {[...techIcons, ...techIcons].map((Icon, i) => (
+                        <Icon key={i} size={24} className="text-white/60 hover:text-white transition-colors flex-shrink-0" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right — Slideshow */}
+              <div className="relative h-56 rounded-lg overflow-hidden bg-white/5 border border-white/10">
+                {projectScreenshots.map((image, idx) => (
+                  <div
+                    key={idx}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${
+                      idx === currentSlide ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{
+                      backgroundImage: `url(${image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                ))}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {projectScreenshots.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        idx === currentSlide ? "bg-white w-6" : "bg-white/30 hover:bg-white/50"
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     </section>
   );
 }

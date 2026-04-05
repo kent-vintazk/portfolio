@@ -31,6 +31,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.jpg",
   },
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   openGraph: {
     title: "KENTO_O | Portfolio",
     description: "Creative developer building refined digital experiences.",
