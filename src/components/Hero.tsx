@@ -3,264 +3,270 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ParticleBackground from "./ParticleBackground";
-import SpiralImage from "@/Images/spiral.png";
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const lettersRef = useRef<HTMLSpanElement[]>([]);
-  const manifestoRef = useRef<HTMLDivElement>(null);
-  const [scrollOpacity, setScrollOpacity] = useState(1);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight;
-      const opacity = Math.max(0, 1 - scrollY / (heroHeight * 1.2));
-      setScrollOpacity(opacity);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const socialsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 2.8 });
 
-    // Manifesto text reveal
-    if (manifestoRef.current) {
-      const rows = manifestoRef.current.querySelectorAll(".manifesto-row");
+    // Profile image reveal
+    const profileEl = document.querySelector(".hero-profile");
+    if (profileEl) {
       tl.fromTo(
-        rows,
-        { opacity: 0, y: 30 },
+        profileEl,
+        { opacity: 0, scale: 1.1, filter: "blur(8px)" },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.2,
-        }
-      );
-
-      // Dots pop in
-      const dots = manifestoRef.current.querySelectorAll(".manifesto-dot");
-      tl.fromTo(
-        dots,
-        { scale: 0 },
-        {
+          opacity: 0.85,
           scale: 1,
-          duration: 0.4,
-          ease: "back.out(3)",
-          stagger: 0.05,
-        },
-        "-=0.6"
+          filter: "blur(0px)",
+          duration: 1.2,
+          ease: "power2.out",
+        }
       );
     }
 
+    // Headline lines reveal
     if (headlineRef.current) {
-      const lines = headlineRef.current.querySelectorAll("span");
+      const lines = headlineRef.current.querySelectorAll(".hero-line");
       tl.fromTo(
         lines,
-        { clipPath: "inset(100% 0 0 0)", y: 50 },
+        { clipPath: "inset(100% 0 0 0)", y: 60 },
         {
           clipPath: "inset(0% 0 0 0)",
           y: 0,
-          duration: 0.95,
+          duration: 1,
           ease: "power3.out",
           stagger: 0.15,
         }
       );
     }
 
+    // Subtitle fade in
     if (subtitleRef.current) {
       tl.fromTo(
         subtitleRef.current,
-        { opacity: 0, y: 18, filter: "blur(6px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power3.out" },
-        "-=0.4"
+        { opacity: 0, y: 20, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.5"
       );
     }
 
-    if (ctaRef.current) {
+    // Contact info
+    if (contactRef.current) {
+      const items = contactRef.current.querySelectorAll(".contact-item");
       tl.fromTo(
-        ctaRef.current.children,
+        items,
         { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.12 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.12,
+        },
         "-=0.4"
       );
     }
-  }, []);
 
-  // Wave effect on mouse move
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!headlineRef.current || lettersRef.current.length === 0) return;
-
-      const rect = headlineRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      lettersRef.current.forEach((letterEl) => {
-        if (!letterEl) return;
-
-        const letterRect = letterEl.getBoundingClientRect();
-        const letterX = letterRect.left - rect.left + letterRect.width / 2;
-        const letterY = letterRect.top - rect.top + letterRect.height / 2;
-
-        const dx = letterX - mouseX;
-        const dy = letterY - mouseY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        const waveRadius = 150;
-        const maxOffset = 25;
-
-        if (distance < waveRadius) {
-          const wave = Math.cos((distance / waveRadius) * Math.PI) * maxOffset;
-          gsap.to(letterEl, {
-            y: wave,
-            rotation: (wave / maxOffset) * 12,
-            duration: 0.2,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-        } else {
-          gsap.to(letterEl, {
-            y: 0,
-            rotation: 0,
-            duration: 0.5,
-            ease: "elastic.out",
-            overwrite: "auto",
-          });
-        }
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    // Social links
+    if (socialsRef.current) {
+      const links = socialsRef.current.querySelectorAll(".social-link");
+      tl.fromTo(
+        links,
+        { opacity: 0, y: 10 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power3.out",
+          stagger: 0.08,
+        },
+        "-=0.3"
+      );
+    }
   }, []);
 
   return (
-    <section
-      id="hero-section"
-      className="relative flex items-center min-h-screen overflow-hidden"
-      style={{
-        backgroundImage: "url('/images/bg.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      <ParticleBackground />
+    <>
+      {/* Import serif font */}
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700;1,6..96,900&display=swap');
+      `}</style>
 
-      {/* Manifesto Text - Upper Middle */}
-      <div
-        ref={manifestoRef}
-        className="absolute top-[12%] left-1/2 -translate-x-1/2 z-10 w-full max-w-xl px-6 pointer-events-none"
+      <section
+        ref={sectionRef}
+        id="hero-section"
+        className="relative z-20 flex flex-col justify-center items-center min-h-screen overflow-hidden bg-black"
       >
-        {/* Row 1 */}
-        <div className="manifesto-row flex items-start justify-between gap-4 mb-8 opacity-0">
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-2 flex-shrink-0" />
+        {/* Blurred Background */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/images/bg3.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+            filter: "blur(12px)",
+            transform: "scale(1.05)",
+          }}
+        />
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 z-0 bg-black/40" />
+
+        <ParticleBackground />
+
+        {/* Main Content - Centered */}
+        <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 sm:px-10 lg:px-20">
+          {/* Big Headline with Profile Image */}
+          <div className="relative">
+            {/* Profile Image - sits behind the text */}
+            <div
+              className="hero-profile absolute top-1/2 left-0 -translate-x-[15%] -translate-y-[40%] w-[clamp(160px,22vw,320px)] aspect-[3/4] z-0 opacity-0"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/profile.png"
+                alt="Kendrick Serrano"
+                className="w-full h-full object-cover grayscale-[30%]"
+                style={{
+                  maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+                }}
+              />
+            </div>
+
+            <h1
+              ref={headlineRef}
+              className="relative z-10"
+              style={{
+                fontFamily: "'Bodoni Moda', serif",
+                fontWeight: 100,
+                lineHeight: 0.9,
+                color: "#F0EDE6",
+                letterSpacing: "-0.20em"
+              }}
+            >
+              <span
+                className="hero-line block text-[clamp(2.5rem,8vw,7rem)] ml-20"
+                style={{ clipPath: "inset(100% 0 0 0)" }}
+              >
+                LET&apos;S CREATE
+              </span>
+              <span
+                className=" hero-line block text-[clamp(2.5rem,8vw,7rem)] ml-[20vw]"
+                style={{ clipPath: "inset(100% 0 0 0)" }}
+              >
+                PROJECTS THAT
+              </span>
+              <span
+                className="hero-line block text-[clamp(2.5rem,8vw,7rem)] ml-40"
+                style={{ clipPath: "inset(100% 0 0 0)" }}
+              >
+                STAND OUT.
+              </span>
+            </h1>
+          </div>
+
+          {/* Subtitle */}
           <p
-            className="text-center font-black text-lg leading-tight"
-            style={{ color: "#F5F5F5" }}
+            ref={subtitleRef}
+            className="mt-8 sm:mt-12 text-center text-sm sm:text-base text-white/60 max-w-md leading-relaxed opacity-0"
+            style={{ fontFamily: "sans-serif", letterSpacing: "0.02em" }}
           >
-            Design shapes the world
+            Reach out for collaborations, commissions,
             <br />
-            not as decoration, but as a
-            <br />
-            force that leaves a mark.
+            or just to connect.
           </p>
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-2 flex-shrink-0" />
-        </div>
 
-        {/* Row 2 */}
-        <div className="manifesto-row flex items-start justify-between gap-4 mb-8 opacity-0">
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-3 flex-shrink-0" />
-          <p
-            className="text-center font-black text-lg leading-tight"
-            style={{ color: "#F5F5F5" }}
-          >
-            It defines how your
-            <br />
-            brand is perceived and
-            <br />
-            how it&apos;s experienced.
-          </p>
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-3 flex-shrink-0" />
-        </div>
-
-        {/* Row 3 */}
-        <div className="manifesto-row flex items-start justify-between gap-4 opacity-0">
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-1 flex-shrink-0" />
-          <p
-            className="text-center font-black text-lg leading-tight"
-            style={{ color: "#F5F5F5" }}
-          >
-            Leave yours.
-          </p>
-          <span className="manifesto-dot w-2 h-2 bg-white/80 mt-1 flex-shrink-0" />
-        </div>
-      </div>
-
-      {/* Location - Fixed to very right */}
-      <div className="absolute bottom-12 right-8 z-10 text-right">
-        <p className="text-xs uppercase tracking-widest text-white/40 mb-2">Location</p>
-        <p className="text-sm text-white">
-          Zamboanga City
-          <br />
-          Philippines
-        </p>
-      </div>
-
-      {/* Bottom Section - Glass Box */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/10">
-        <div className="container-custom py-12">
+          {/* Contact Info */}
           <div
-            style={{
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              backdropFilter: "blur(10px)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              padding: "2rem",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              maxWidth: "400px",
-            }}
+            ref={contactRef}
+            className="mt-10 sm:mt-14 flex flex-col items-center gap-4"
           >
-            <h3 className="text-sm sm:text-base font-black text-white leading-tight mb-6">
-              Designed & developed
-              <br />
-              by Kendrick Serrano
-              <br />
-              <span className="text-white/50">ケンドリック・セラーノ</span>
-            </h3>
-            <div className="border-t border-white/20 my-4" />
-            <p className="text-xs text-white/50 leading-relaxed">
-              Crafting refined digital experiences with precision and purpose.
+            <a
+              href="mailto:your@email.com"
+              className="contact-item text-[clamp(0.9rem,2.5vw,1.4rem)] font-semibold tracking-wider text-white/90 hover:text-white transition-colors duration-300 opacity-0"
+              style={{
+    fontFamily: "'Bodoni Moda', serif",
+                    letterSpacing: "-0.01em",
+              }}
+            >
+              kendrickserrano7@gmail.com
+            </a>
+            <p
+              className="contact-item text-[clamp(0.9rem,2.5vw,1.3rem)] text-white/70 opacity-0"
+              style={{
+                fontFamily: "'Bodoni Moda', serif",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Zamboanga City, Philippines
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs uppercase tracking-widest z-10"
-        style={{
-          color: "rgba(0, 255, 136, 0.6)",
-          textShadow: "0 0 10px rgba(0, 255, 136, 0.3)",
-        }}
-      >
-        <svg
-          className="w-4 h-4 mx-auto animate-bounce"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          style={{ filter: "drop-shadow(0 0 8px rgba(0, 255, 136, 0.4))" }}
+        {/* Bottom Social Links */}
+        <div
+          ref={socialsRef}
+          className="absolute bottom-0 left-0 right-0 z-"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-        </svg>
-      </div>
-    </section>
+          <div className="flex items-center justify-between px-6 sm:px-10 lg:px-16 py-5">
+            <a
+              href="#"
+              className="social-link text-xs sm:text-sm uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors duration-300 opacity-0"
+            >
+              Instagram
+            </a>
+            <a
+              href="#"
+              className="social-link text-xs sm:text-sm uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors duration-300 opacity-0"
+            >
+              GitHub
+            </a>
+            <a
+              href="#"
+              className="social-link text-xs sm:text-sm uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors duration-300 opacity-0"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 text-xs uppercase tracking-widest z-10"
+          style={{
+            color: "rgba(0, 255, 136, 0.6)",
+            textShadow: "0 0 10px rgba(0, 255, 136, 0.3)",
+          }}
+        >
+          <svg
+            className="w-4 h-4 mx-auto animate-bounce"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            style={{ filter: "drop-shadow(0 0 8px rgba(0, 255, 136, 0.4))" }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+      </section>
+    </>
   );
 }

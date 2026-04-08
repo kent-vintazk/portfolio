@@ -21,7 +21,7 @@ export default function ScrollProgress() {
   const filledSegments = Math.ceil((progress / 100) * segments);
 
   return (
-    <div className="fixed top-2 left-0 right-0 h-4 z-[9998] flex items-center justify-self-center gap-1 px-1 py-1 bg-black">
+    <div className="fixed top-2 left-0 right-0 h-4 z-[9998] flex items-center justify-self-center gap-1 px-1 py-1">
       {Array.from({ length: segments }).map((_, i) => (
         <div
           key={i}

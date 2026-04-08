@@ -35,7 +35,7 @@
   }
 
   html {
-    @apply scroll-smooth;
+    scroll-behavior: smooth;
     /* Hide scrollbar but keep scrolling */
     scrollbar-width: none;
     -ms-overflow-style: none;

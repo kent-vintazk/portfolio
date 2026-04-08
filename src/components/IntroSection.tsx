@@ -74,7 +74,19 @@ export default function IntroSection() {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+
+      {/* Badge animations */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes floatBadge {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes glowBadge {
+          0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 136, 0.1); }
+          50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.25); }
+        }
+      `}} />
 
       {/* ===== MOBILE LAYOUT (flow-based, visible below md) ===== */}
       <div className="relative z-10 flex flex-col min-h-screen md:hidden">
@@ -150,6 +162,7 @@ export default function IntroSection() {
           </div>
         </div>
       </div>
+
 
       {/* ===== DESKTOP LAYOUT (absolute positioned, visible from md up) ===== */}
       <>
