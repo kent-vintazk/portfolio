@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ParticleBackground from "./ParticleBackground";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -124,10 +123,8 @@ export default function Hero() {
         {/* Dark overlay for contrast */}
         <div className="absolute inset-0 z-0 bg-black/40" />
 
-        <ParticleBackground />
-
         {/* Main Content - Centered */}
-        <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 sm:px-10 lg:px-20">
+        <div className="relative z-10 flex flex-col items-center justify-center mt-10 sm:mt-16 w-full px-6 sm:px-10 lg:px-20">
           {/* Big Headline with Profile Image */}
           <div className="relative">
             {/* Profile Image - sits behind the text */}
@@ -135,6 +132,27 @@ export default function Hero() {
               className="hero-profile absolute top-1/2 left-0 -translate-x-[15%] -translate-y-[40%] w-[clamp(160px,22vw,320px)] aspect-[3/4] z-0 opacity-0"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
+          
+          {/* Name badge */}
+<div
+  className="absolute -top-16 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap"
+  style={{
+    backgroundColor: "rgba(240, 237, 230, 0.95)",
+    boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+  }}
+>
+  <span
+    className="w-2.5 h-2.5 rounded-full shrink-0"
+    style={{ backgroundColor: "#a3e635" }}
+  />
+  <span
+    className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-neutral-700 font-medium"
+    style={{ fontFamily: "sans-serif" }}
+  >
+    Kendrick Serrano
+  </span>
+</div>
+
               <img
                 src="/images/profile.png"
                 alt="Kendrick Serrano"

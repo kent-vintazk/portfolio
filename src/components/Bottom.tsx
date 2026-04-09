@@ -12,6 +12,7 @@ export default function Bottom() {
           src="/images/bg3.png"
           alt="Background"
           fill
+          sizes="100vw"
           className="object-cover opacity-30"
           quality={90}
           priority={false}

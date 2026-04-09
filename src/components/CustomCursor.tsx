@@ -29,6 +29,7 @@ export default function CustomCursor() {
     let mouseY = 0;
     let currentX = 0;
     let currentY = 0;
+    let isAnimating = true;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -37,7 +38,9 @@ export default function CustomCursor() {
 
     // Smooth lerp animation loop
     const animate = () => {
-      const ease = 0.15;
+      if (!isAnimating) return;
+
+      const ease = 0.4;
       currentX += (mouseX - currentX) * ease;
       currentY += (mouseY - currentY) * ease;
 
@@ -80,15 +83,15 @@ export default function CustomCursor() {
     document.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseout", handleMouseOut);
 
-    const frameId = requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
     return () => {
+      isAnimating = false;
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
-      cancelAnimationFrame(frameId);
     };
   }, []);
 
@@ -102,7 +105,7 @@ export default function CustomCursor() {
         backgroundColor: "white",
         mixBlendMode: "difference",
         transform: "translate(-50%, -50%)",
-        transition: "transform 0.3s ease, opacity 0.3s ease",
+        transition: "opacity 0.2s ease",
         opacity: 1,
       }}
     />

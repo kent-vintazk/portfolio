@@ -8,44 +8,44 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: "PINTAXITE",
+    title: "Disaster Response ",
     image: "/images/projects/Screenshot 2024-09-12 131056.png",
     tags: ["DEVELOPMENT", "UI/UX"],
   },
   {
-    title: "ONLINE VOTING",
+    title: "VocabVoyage",
     image: "/images/projects/Screenshot 2024-10-18 230025.png",
     tags: ["DEVELOPMENT"],
   },
   {
-    title: "VITALPIN",
+    title: "Cooking Book",
     image: "/images/projects/Screenshot 2024-10-29 175143.png",
     tags: ["DEVELOPMENT", "DESIGN"],
   },
   {
-    title: "PORTFOLIO V1",
+    title: "Pentaxite",
     image: "/images/projects/Screenshot 2025-01-23 174939.png",
-    tags: ["DEVELOPMENT", "UI/UX"],
+    tags: ["Project Design"],
   },
   {
-    title: "DASHBOARD",
+    title: "Saas Catering",
     image: "/images/projects/Screenshot 2025-02-07 095800.png",
     tags: ["DEVELOPMENT", "DESIGN"],
   },
   {
-    title: "KENTO STUDIO",
+    title: "The Eilish Vault",
     image: "/images/projects/Screenshot 2025-04-16 112218.png",
     tags: ["DEVELOPMENT", "BRANDING"],
   },
   {
-    title: "CREATIVE LAB",
+    title: "Coffee Blog",
     image: "/images/projects/Screenshot 2025-04-16 121617.png",
     tags: ["DEVELOPMENT", "UI/UX"],
   },
   {
-    title: "NEXUS APP",
+    title: "Figma Design",
     image: "/images/projects/Screenshot 2025-07-03 184020.png",
-    tags: ["DEVELOPMENT", "DESIGN"],
+    tags: ["DESIGN"],
   },
 ];
 
@@ -83,8 +83,8 @@ export default function MyWork() {
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
-            end: "top 30%",
+            start: "top 100%",
+            end: "top 50%",
             toggleActions: "play none none reverse",
           },
         }
