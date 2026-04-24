@@ -88,7 +88,7 @@ export default function AboutPage() {
             </div>
             <div>
               <h3 className="text-white font-bold text-xl">B.Sc. Computer Science</h3>
-              <p className="text-[#4d65ff] text-sm mb-3">University Name</p>
+              <p className="text-[#ff6a00] text-sm mb-3">University Name</p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--fg-muted)" }}>
                 Graduated with honors. Focused on algorithms, software engineering, and distributed systems.
               </p>

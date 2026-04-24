@@ -28,7 +28,7 @@ const components = {
     <li className="leading-relaxed" {...props} />
   ),
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className="text-[#4d65ff] hover:underline" target="_blank" rel="noopener noreferrer" {...props} />
+    <a className="text-[#ff6a00] hover:underline" target="_blank" rel="noopener noreferrer" {...props} />
   ),
   strong: (props: React.HTMLAttributes<HTMLElement>) => (
     <strong className="text-white font-semibold" {...props} />
@@ -40,7 +40,7 @@ const components = {
     <pre className="bg-white/5 border border-white/10 p-4 overflow-x-auto mb-4 text-sm font-mono text-white/80 rounded" {...props} />
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote className="border-l-2 border-[#4d65ff] pl-4 italic mb-4" style={{ color: "var(--fg-muted)" }} {...props} />
+    <blockquote className="border-l-2 border-[#ff6a00] pl-4 italic mb-4" style={{ color: "var(--fg-muted)" }} {...props} />
   ),
   hr: () => <hr className="border-white/10 my-8" />,
 };

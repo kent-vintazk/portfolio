@@ -37,7 +37,7 @@ export default function BlogPage() {
                 className="group flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-5 border-b border-white/5 hover:border-white/15 transition-colors duration-300"
               >
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-white font-semibold text-lg group-hover:text-[#4d65ff] transition-colors duration-300 truncate">
+                  <h2 className="text-white font-semibold text-lg group-hover:text-[#ff6a00] transition-colors duration-300 truncate">
                     {post.title}
                   </h2>
                   <p className="text-sm mt-1 truncate" style={{ color: "var(--fg-muted)" }}>

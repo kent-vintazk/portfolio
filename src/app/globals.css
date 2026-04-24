@@ -6,28 +6,51 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --fg-muted: rgba(255, 255, 255, 0.35);
-  --accent: #4d65ff;
+  --fg-muted: rgba(255, 255, 255, 0.55);
+  --accent: #ff6a00;
+  --accent-hover: #ee9b00;
+  --accent-amber: rgba(255, 170, 60, 0.9);
+  --accent-amber-muted: rgba(255, 200, 120, 0.45);
   --card-border: rgba(255, 255, 255, 0.1);
   --divider: rgba(255, 255, 255, 0.05);
+  --bg-gradient: radial-gradient(ellipse at 50% 50%, #1c0800 0%, #0d0400 45%, #000 100%);
 }
 
 /* Light theme */
 .light {
   --background: #fafafa;
   --foreground: #0a0a0a;
-  --fg-muted: rgba(10, 10, 10, 0.5);
-  --accent: #4d65ff;
+  --fg-muted: rgba(10, 10, 10, 0.55);
+  --accent: #ff6a00;
+  --accent-hover: #ee9b00;
+  --accent-amber: rgba(200, 90, 0, 0.9);
+  --accent-amber-muted: rgba(200, 90, 0, 0.55);
   --card-border: rgba(0, 0, 0, 0.1);
   --divider: rgba(0, 0, 0, 0.06);
+  --bg-gradient: #fafafa;
 }
 
 @layer base {
   body {
     @apply antialiased transition-colors duration-300;
-    background-color: var(--background);
+    background: var(--bg-gradient);
+    background-attachment: fixed;
     color: var(--foreground);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-serif), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif), "Cormorant Garamond", Georgia, serif;
+    letter-spacing: 0.03em;
+  }
+
+  @keyframes float-ember {
+    0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+    8%   { opacity: var(--ember-op, 0.5); }
+    90%  { opacity: var(--ember-op, 0.5); }
+    100% { transform: translateY(-120vh) translateX(30px) scale(0.4); opacity: 0; }
   }
 
   * {
@@ -53,9 +76,33 @@
 
   /* Primary CTA */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 rounded-none bg-[#4d65ff] text-white text-sm font-medium uppercase tracking-widest
-           hover:bg-[#3a50e6] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#4d65ff] focus:ring-offset-2;
+    @apply inline-flex items-center justify-center px-8 py-3.5 rounded-none bg-[#ff6a00] text-white text-sm font-medium uppercase tracking-widest
+           hover:bg-[#ee9b00] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#ff6a00] focus:ring-offset-2;
     focus-ring-offset-color: var(--background);
+  }
+
+  /* Fire gradient text — for emphasis words like AWAKENING */
+  .text-fire {
+    background: linear-gradient(90deg, #ff6a00 0%, #ee9b00 40%, #94d82d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Amber italic accent — for emphasized serif words like ARROGANCE */
+  .text-amber {
+    color: var(--accent-amber);
+    font-style: italic;
+  }
+
+  /* Monospace tracking label — for CHAPTER*01, 2016 */
+  .mono-label {
+    font-family: var(--font-mono), "Courier New", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
   }
 
   /* Text link with animated underline */
@@ -90,7 +137,7 @@
 
   .card {
     @apply rounded-none p-6 transition-all duration-300
-           hover:border-[#4d65ff]/50;
+           hover:border-[#ff6a00]/50;
     border: 1px solid var(--card-border);
     background: transparent;
   }
@@ -110,6 +157,30 @@
   .animate-marquee {
     animation: marquee 20s linear infinite;
   }
+  .font-display {
+    font-family: var(--font-display), "Cinzel", "Trajan Pro", serif;
+  }
+  .font-serif-italic {
+    font-family: var(--font-serif), "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
+  }
+}
+
+@keyframes strangeSpinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes strangeSpinReverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+@keyframes strangeCorePulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.04); }
+}
+@keyframes strangeScrollIndicator {
+  0%, 100% { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+  50%      { transform: scaleY(1);   transform-origin: top; opacity: 1; }
 }
 
 /* GSAP handles all scroll-triggered animations via data-reveal attributes.

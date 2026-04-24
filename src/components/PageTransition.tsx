@@ -30,7 +30,7 @@ export default function PageTransition() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] pointer-events-none bg-[#4d65ff]"
+      className="fixed inset-0 z-[100] pointer-events-none bg-[#ff6a00]"
       style={{ transform: "scaleY(0)" }}
     />
   );

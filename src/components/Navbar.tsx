@@ -66,21 +66,29 @@ export default function Navbar() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Show navbar only when Hero section is visible
+  // Home page: hide until Hero is visible. All other routes: always show.
   useEffect(() => {
+    const isHome = pathname === "/";
+
+    if (!isHome) {
+      setShowNavbar(true);
+      return;
+    }
+
     const handleScroll = () => {
       const heroElement = document.getElementById("hero-section");
-      if (heroElement) {
-        const rect = heroElement.getBoundingClientRect();
-        // Show navbar when Hero section is at or above viewport
-        setShowNavbar(rect.top <= window.innerHeight && rect.bottom >= 0);
+      if (!heroElement) {
+        setShowNavbar(false);
+        return;
       }
+      const rect = heroElement.getBoundingClientRect();
+      setShowNavbar(rect.top <= window.innerHeight && rect.bottom >= 0);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Check on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <header className={`fixed top-3 inset-x-0 z-50 bg-transparent transition-opacity duration-300 ${showNavbar ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>

@@ -82,7 +82,7 @@ export default function ExperienceTimeline({ experiences }: { experiences: Exper
             className="timeline-card shrink-0 w-[320px] sm:w-[400px] card p-8 relative"
           >
             {/* Timeline dot */}
-            <div className="absolute -top-3 left-8 w-2 h-2 rounded-full bg-[#4d65ff]" />
+            <div className="absolute -top-3 left-8 w-2 h-2 rounded-full bg-[#ff6a00]" />
 
             <span className="text-white/20 text-xs font-medium uppercase tracking-widest">
               {exp.period}
@@ -90,7 +90,7 @@ export default function ExperienceTimeline({ experiences }: { experiences: Exper
             <h3 className="text-white font-bold text-xl sm:text-2xl mt-4 mb-1">
               {exp.role}
             </h3>
-            <p className="text-[#4d65ff] text-sm mb-4">{exp.company}</p>
+            <p className="text-[#ff6a00] text-sm mb-4">{exp.company}</p>
             <p className="text-sm leading-relaxed" style={{ color: "var(--fg-muted)" }}>
               {exp.description}
             </p>

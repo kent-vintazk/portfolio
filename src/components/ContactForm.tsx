@@ -4,12 +4,38 @@ import { useState, type FormEvent } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+const MAX_WORDS = 100;
+
+function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [message, setMessage] = useState("");
+
+  const wordCount = countWords(message);
+  const overLimit = wordCount > MAX_WORDS;
+  const atLimit = wordCount >= MAX_WORDS;
+
+  function handleMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const next = e.target.value;
+    // Hard cap: reject changes that would push past the word limit.
+    // Edits within the existing words (backspace, fixing typos) stay allowed.
+    if (countWords(next) > MAX_WORDS) return;
+    setMessage(next);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (overLimit) {
+      setStatus("error");
+      setErrorMsg(`Message must be ${MAX_WORDS} words or fewer.`);
+      return;
+    }
+
     setStatus("sending");
     setErrorMsg("");
 
@@ -35,6 +61,7 @@ export default function ContactForm() {
 
       setStatus("success");
       form.reset();
+      setMessage("");
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
@@ -55,7 +82,7 @@ export default function ContactForm() {
             required
             placeholder="Your name"
             className="w-full px-4 py-3 rounded-none bg-transparent border border-white/10 text-white placeholder:text-white/20
-                       focus:outline-none focus:border-[#4d65ff] transition-colors duration-300"
+                       focus:outline-none focus:border-[#ff6a00] transition-colors duration-300"
           />
         </div>
         <div>
@@ -69,7 +96,7 @@ export default function ContactForm() {
             required
             placeholder="you@example.com"
             className="w-full px-4 py-3 rounded-none bg-transparent border border-white/10 text-white placeholder:text-white/20
-                       focus:outline-none focus:border-[#4d65ff] transition-colors duration-300"
+                       focus:outline-none focus:border-[#ff6a00] transition-colors duration-300"
           />
         </div>
       </div>
@@ -83,35 +110,51 @@ export default function ContactForm() {
           type="text"
           placeholder="What's this about?"
           className="w-full px-4 py-3 rounded-none bg-transparent border border-white/10 text-white placeholder:text-white/20
-                     focus:outline-none focus:border-[#4d65ff] transition-colors duration-300"
+                     focus:outline-none focus:border-[#ff6a00] transition-colors duration-300"
         />
       </div>
       <div>
-        <label htmlFor="message" className="block text-xs font-medium uppercase tracking-widest text-white/35 mb-2">
-          Message
-        </label>
+        <div className="flex items-baseline justify-between mb-2">
+          <label htmlFor="message" className="block text-xs font-medium uppercase tracking-widest text-white/35">
+            Message
+          </label>
+          <span
+            className={`text-xs font-mono tracking-wider ${
+              overLimit ? "text-red-400" : atLimit ? "text-[#ff6a00]" : "text-white/35"
+            }`}
+            aria-live="polite"
+          >
+            {wordCount} / {MAX_WORDS} words
+          </span>
+        </div>
         <textarea
           id="message"
           name="message"
           rows={6}
           required
+          value={message}
+          onChange={handleMessageChange}
           placeholder="Tell me about your project or just say hi..."
-          className="w-full px-4 py-3 rounded-none bg-transparent border border-white/10 text-white placeholder:text-white/20
-                     focus:outline-none focus:border-[#4d65ff] transition-colors duration-300 resize-none"
+          className={`w-full px-4 py-3 rounded-none bg-transparent border text-white placeholder:text-white/20
+                     focus:outline-none transition-colors duration-300 resize-none ${
+                       overLimit
+                         ? "border-red-400/60 focus:border-red-400"
+                         : "border-white/10 focus:border-[#ff6a00]"
+                     }`}
         />
       </div>
 
       <div className="flex items-center gap-4">
         <button
           type="submit"
-          disabled={status === "sending"}
+          disabled={status === "sending" || overLimit}
           className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {status === "sending" ? "Sending..." : "Send Message"}
         </button>
 
         {status === "success" && (
-          <span className="text-sm text-[#4d65ff]">Message sent successfully.</span>
+          <span className="text-sm text-[#ff6a00]">Message sent successfully.</span>
         )}
         {status === "error" && (
           <span className="text-sm text-red-400">{errorMsg}</span>

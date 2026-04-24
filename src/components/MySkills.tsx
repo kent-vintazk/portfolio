@@ -139,21 +139,14 @@ export default function MySkills() {
     <section
       ref={sectionRef}
 className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('images/bg3.png')" }}
-      />
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/40" />
 
       <div className="relative z-10 container-custom">
         {/* Section nav indicator */}
         
         <div className="flex items-center gap-4 mb-6 ">
-          <span className="text-xs font-mono text-white/40 tracking-wider ml-4">004</span>
-          <span className="w-12 h-px bg-white/20" />
-          <span className="text-xs uppercase tracking-[0.2em] text-white/40">Skills</span>
+          <span className="text-xs font-mono text-[#ff6a00] tracking-wider ml-4">004</span>
+          <span className="w-12 h-px bg-[#ff6a00]/40" />
+          <span className="text-xs uppercase tracking-[0.2em] text-[#ff6a00]">Skills</span>
         </div>
 
         {/* Glass card */}

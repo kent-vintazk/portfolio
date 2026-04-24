@@ -77,24 +77,17 @@ function MarqueeRow({
 export default function Technical() {
   return (
     <section
-      className="relative w-full overflow-hidden bg-black"
-      style={{
-        backgroundImage: "url('/images/bg3.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "50vh",
-      }}
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: "50vh" }}
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
 
       {/* Content */}
       <div className="relative z-30 w-full flex flex-col items-center justify-center px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
         {/* Section label */}
         <div className="flex items-center gap-4 mb-12 sm:mb-16 w-full">
-          <span className="text-xs font-mono text-white/40 tracking-wider">002</span>
-          <span className="w-12 h-px bg-white/20" />
-          <span className="text-xs uppercase tracking-[0.2em] text-white/40">Technical Arsenal</span>
+          <span className="text-xs font-mono text-[#ff6a00] tracking-wider">002</span>
+          <span className="w-12 h-px bg-[#ff6a00]/40" />
+          <span className="text-xs uppercase tracking-[0.2em] text-[#ff6a00]">Technical Arsenal</span>
         </div>
 
         {/* Marquee rows */}

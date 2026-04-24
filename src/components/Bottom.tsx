@@ -1,25 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Bottom() {
   return (
     <section className="pt-40 sm:pt-48 pb-0 border-t border-white/5 relative overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/bg3.png"
-          alt="Background"
-          fill
-          sizes="100vw"
-          className="object-cover opacity-30"
-          quality={90}
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80"></div>
-      </div>
-
       {/* Content */}
       <div className="container-custom text-center relative z-10">
         {/* Heading */}

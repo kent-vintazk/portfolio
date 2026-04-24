@@ -136,29 +136,15 @@ export default function MyWork() {
       ref={sectionRef}
       id="work"
       className="relative"
-      style={{ backgroundColor: "#0a0a0a", overflow: "clip" }}
+      style={{ overflow: "clip" }}
     >
-      {/* Background — stays still via backgroundAttachment: fixed */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: "url('/images/bg3.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          filter: "blur(12px)",
-          transform: "scale(1.05)",
-          opacity: 0.5,
-        }}
-      />
-      <div className="absolute inset-0 z-0 bg-black/50 pointer-events-none" />
 
       {/* Section nav indicator */}
       <div className="relative z-30 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-6">
         <div className="flex items-center gap-4">
-          <span className="text-xs font-mono text-white/40 tracking-wider">003</span>
-          <span className="w-12 h-px bg-white/20" />
-          <span className="text-xs uppercase tracking-[0.2em] text-white/40">Work</span>
+          <span className="text-xs font-mono text-[#ff6a00] tracking-wider">003</span>
+          <span className="w-12 h-px bg-[#ff6a00]/40" />
+          <span className="text-xs uppercase tracking-[0.2em] text-[#ff6a00]">Work</span>
         </div>
       </div>
 
@@ -170,7 +156,7 @@ export default function MyWork() {
             ref={headingRef}
             className="text-center uppercase opacity-0"
             style={{
-              fontFamily: "'Bodoni Moda', serif",
+              fontFamily: "var(--font-display), 'Cinzel', 'Trajan Pro', serif",
               fontWeight: 900,
               fontSize: "clamp(5rem, 15vw, 14rem)",
               lineHeight: 0.95,
@@ -267,34 +253,7 @@ export default function MyWork() {
       </div>
 
       {/* Bottom social bar */}
-      <div className="relative z-20 border-t border-white/10">
-        <div className="flex items-center justify-between px-6 sm:px-10 lg:px-16 py-4">
-          <div className="flex items-center gap-6">
-            <a
-              href="#"
-              className="text-xs uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors duration-300"
-            >
-              IG
-            </a>
-            <a
-              href="#"
-              className="text-xs uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors duration-300"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="#"
-              className="text-xs uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors duration-300"
-            >
-              Vimeo
-            </a>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white/30" />
-            <span className="text-xs uppercase tracking-[0.2em] text-white/40">REC</span>
-          </div>
-        </div>
-      </div>
+    
     </section>
   );
 }

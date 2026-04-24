@@ -28,7 +28,7 @@ export default function ProjectCard({ slug, title, description, tags, image, hre
     const y = e.clientY - rect.top;
 
     glow.style.opacity = "1";
-    glow.style.background = `radial-gradient(350px circle at ${x}px ${y}px, rgba(77,101,255,0.1), transparent 70%)`;
+    glow.style.background = `radial-gradient(350px circle at ${x}px ${y}px, rgba(255,106,0,0.15), transparent 70%)`;
   };
 
   const handleMouseLeave = () => {
@@ -67,7 +67,7 @@ export default function ProjectCard({ slug, title, description, tags, image, hre
         <div className="flex items-start justify-between mb-6">
           {/* Folder icon (shown when no image) */}
           {!image && (
-            <svg className="w-7 h-7 text-[#4d65ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-7 h-7 text-[#ff6a00]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -109,9 +109,9 @@ export default function ProjectCard({ slug, title, description, tags, image, hre
           </div>
         </div>
 
-        <h3 className="text-white font-semibold text-lg mb-2 group-hover:text-[#4d65ff] transition-colors duration-300">
+        <h3 className="text-white font-semibold text-lg mb-2 group-hover:text-[#ff6a00] transition-colors duration-300">
           {slug ? (
-            <Link href={`/projects/${slug}`} className="hover:text-[#4d65ff]">
+            <Link href={`/projects/${slug}`} className="hover:text-[#ff6a00]">
               {title}
             </Link>
           ) : (

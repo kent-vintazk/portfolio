@@ -98,30 +98,21 @@ export default function Hero() {
 
   return (
     <>
-      {/* Import serif font */}
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700;1,6..96,900&display=swap');
-      `}</style>
-
       <section
         ref={sectionRef}
         id="hero-section"
-        className="relative z-20 flex flex-col justify-center items-center min-h-screen overflow-hidden bg-black"
+        className="relative z-20 flex flex-col justify-center items-center min-h-screen overflow-hidden"
       >
-        {/* Blurred Background */}
+        {/* ── Top fade bridge — picks up IntroSection's warm glow ── */}
         <div
-          className="absolute inset-0 z-0"
+          aria-hidden
+          className="absolute top-0 left-0 right-0 pointer-events-none z-0"
           style={{
-            backgroundImage: "url('/images/bg3.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundAttachment: "fixed",
-            filter: "blur(12px)",
-            transform: "scale(1.05)",
+            height: "50vh",
+            background:
+              "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(255,120,0,0.18) 0%, rgba(255,90,0,0.08) 35%, transparent 80%)",
           }}
         />
-        {/* Dark overlay for contrast */}
-        <div className="absolute inset-0 z-0 bg-black/40" />
 
         {/* Main Content - Centered */}
         <div className="relative z-10 flex flex-col items-center justify-center mt-10 sm:mt-16 w-full px-6 sm:px-10 lg:px-20">
@@ -168,7 +159,7 @@ export default function Hero() {
               ref={headlineRef}
               className="relative z-10"
               style={{
-                fontFamily: "'Bodoni Moda', serif",
+                fontFamily: "var(--font-display), 'Cinzel', 'Trajan Pro', serif",
                 fontWeight: 100,
                 lineHeight: 0.9,
                 color: "#F0EDE6",
@@ -216,7 +207,7 @@ export default function Hero() {
               href="mailto:your@email.com"
               className="contact-item text-[clamp(0.9rem,2.5vw,1.4rem)] font-semibold tracking-wider text-white/90 hover:text-white transition-colors duration-300 opacity-0"
               style={{
-    fontFamily: "'Bodoni Moda', serif",
+    fontFamily: "var(--font-display), 'Cinzel', 'Trajan Pro', serif",
                     letterSpacing: "-0.01em",
               }}
             >
@@ -225,7 +216,7 @@ export default function Hero() {
             <p
               className="contact-item text-[clamp(0.9rem,2.5vw,1.3rem)] text-white/70 opacity-0"
               style={{
-                fontFamily: "'Bodoni Moda', serif",
+                fontFamily: "var(--font-display), 'Cinzel', 'Trajan Pro', serif",
                 letterSpacing: "0.05em",
               }}
             >

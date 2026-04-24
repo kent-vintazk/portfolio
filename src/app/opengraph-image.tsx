@@ -47,7 +47,7 @@ export default async function Image() {
             left: "80px",
             width: "48px",
             height: "4px",
-            background: "#4d65ff",
+            background: "#ff6a00",
           }}
         />
       </div>
