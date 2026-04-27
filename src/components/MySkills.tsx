@@ -1,11 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 /* ─── Custom Brand SVG Icons ─── */
 
 const FigmaIcon = ({ size = 36, className = "" }: { size?: number; className?: string }) => (
@@ -62,83 +56,10 @@ const tools = [
 /* ─── Component ─── */
 
 export default function MySkills() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const barsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Heading fade in
-      if (headingRef.current) {
-        gsap.fromTo(
-          headingRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
-
-      // Content fade in
-      if (contentRef.current) {
-        gsap.fromTo(
-          contentRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: 0.2,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
-
-      // Skill bars animate width
-      if (barsRef.current) {
-        const bars = barsRef.current.querySelectorAll("[data-bar]");
-        bars.forEach((bar) => {
-          gsap.fromTo(
-            bar,
-            { width: "0%" },
-            {
-              width: (bar as HTMLElement).dataset.bar + "%",
-              duration: 1.2,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: barsRef.current,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
-className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
+      className="relative pb-20 md:pb-32 pt-6 overflow-hidden"
+    >
 
       <div className="relative z-10 container-custom">
         {/* Section nav indicator */}
@@ -166,8 +87,7 @@ className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
             {/* Left — Title & Description */}
             <div>
               <h2
-                ref={headingRef}
-                className="text-3xl md:text-4xl font-bold mb-6 leading-tight text-white opacity-0"
+                className="text-3xl md:text-4xl font-bold mb-6 leading-tight text-white"
               >
                 <span className="italic font-light">My Professional</span>
                 <br />
@@ -185,8 +105,7 @@ className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
 
             {/* Right — Skill category icons in a row */}
             <div
-              ref={contentRef}
-              className="flex items-center justify-center gap-5 md:gap-8 opacity-0"
+              className="flex items-center justify-center gap-5 md:gap-8"
             >
               {skillCategories.map((skill, idx) => {
                 const Icon = skill.icon;
@@ -215,7 +134,7 @@ className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
           </div>
 
           {/* Skill bars */}
-          <div ref={barsRef} className="mt-14 pt-10 border-t border-white/[0.08]">
+          <div className="mt-14 pt-10 border-t border-white/[0.08]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-7">
               {skills.map((skill, idx) => (
                 <div key={idx}>
@@ -231,10 +150,9 @@ className="relative pb-20 md:pb-32 pt-6 overflow-hidden"    >
                   <div className="relative h-[5px] bg-white/10 rounded-full">
                     {/* Filled bar */}
                     <div
-                      data-bar={skill.percentage}
                       className="absolute inset-y-0 left-0 rounded-full"
                       style={{
-                        width: "0%",
+                        width: `${skill.percentage}%`,
                         background: "none",
                         backgroundColor: skill.percentage >= 75 ? "#00e676" : "#ff3d3d",
                       }}

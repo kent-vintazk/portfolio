@@ -1,11 +1,3 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 interface Experience {
   role: string;
   company: string;
@@ -14,93 +6,38 @@ interface Experience {
 }
 
 export default function ExperienceTimeline({ experiences }: { experiences: Experience[] }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    const ctx = gsap.context(() => {
-      const scrollWidth = track.scrollWidth - container.clientWidth;
-
-      gsap.to(track, {
-        x: -scrollWidth,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => `+=${scrollWidth}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Fade in each card as it enters
-      gsap.utils.toArray<HTMLElement>(".timeline-card").forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: gsap.getById("timelineScroll") || undefined,
-              start: "left 80%",
-              once: true,
-            },
-          }
-        );
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={containerRef} className="h-screen overflow-hidden">
-      <div
-        ref={trackRef}
-        className="flex items-center h-full gap-8 sm:gap-12 pl-6 sm:pl-10 pr-[20vw]"
-        style={{ width: "max-content" }}
-      >
-        {/* Title card */}
-        <div className="shrink-0 w-[300px] sm:w-[400px]">
-          <h2 className="section-title">Experience</h2>
-          <p className="section-subtitle">Scroll to explore my journey.</p>
+    <section className="py-24 sm:py-32">
+      <div className="container-custom">
+        <div className="max-w-3xl mb-14">
+          <h2 className="dd-section-title">
+            <span className="dd-section-title__mark" aria-hidden>✦</span>
+            Experience
+          </h2>
+          <p className="mt-4 dd-body" style={{ fontSize: "1rem" }}>
+            A brief timeline of the work that shaped my craft.
+          </p>
         </div>
 
-        {/* Timeline line */}
-        {experiences.map((exp, i) => (
-          <div
-            key={exp.role + exp.company}
-            className="timeline-card shrink-0 w-[320px] sm:w-[400px] card p-8 relative"
-          >
-            {/* Timeline dot */}
-            <div className="absolute -top-3 left-8 w-2 h-2 rounded-full bg-[#ff6a00]" />
+        <ol className="relative max-w-3xl border-l border-[rgba(255,106,0,0.25)] pl-8 space-y-12">
+          {experiences.map((exp) => (
+            <li key={exp.role + exp.company} className="relative">
+              {/* Timeline dot */}
+              <span
+                aria-hidden
+                className="absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-[#ff6a00]"
+                style={{ boxShadow: "0 0 12px rgba(255,106,0,0.7)" }}
+              />
 
-            <span className="text-white/20 text-xs font-medium uppercase tracking-widest">
-              {exp.period}
-            </span>
-            <h3 className="text-white font-bold text-xl sm:text-2xl mt-4 mb-1">
-              {exp.role}
-            </h3>
-            <p className="text-[#ff6a00] text-sm mb-4">{exp.company}</p>
-            <p className="text-sm leading-relaxed" style={{ color: "var(--fg-muted)" }}>
-              {exp.description}
-            </p>
-
-            {/* Connector line to next card */}
-            {i < experiences.length - 1 && (
-              <div className="absolute top-[-7px] left-[calc(2rem+4px)] w-[calc(100%+2rem)] h-px bg-white/10" />
-            )}
-          </div>
-        ))}
+              <div className="dd-year-stamp mb-3">{exp.period}</div>
+              <h3 className="dd-education-degree mb-1">{exp.role}</h3>
+              <p className="dd-education-school" style={{ marginTop: 0 }}>
+                {exp.company}
+              </p>
+              <p className="dd-education-desc">{exp.description}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

@@ -17,6 +17,7 @@ import JsonLd from "@/components/JsonLd";
 import ThemeProvider from "@/components/ThemeProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Embers from "@/components/Embers";
+import ConsoleFilter from "@/components/ConsoleFilter";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -69,6 +70,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} ${cormorant.variable} font-sans cursor-none`}>
+        <ConsoleFilter />
         <CustomCursor />
         <ScrollProgress />
         <Embers count={50} />

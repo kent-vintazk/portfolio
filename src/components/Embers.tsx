@@ -29,6 +29,7 @@ export default function Embers({ count = 40 }: EmberProps) {
   return (
     <div
       aria-hidden
+      data-suck
       data-testid="embers-layer"
       className="pointer-events-none fixed inset-0 z-[1] overflow-hidden"
     >

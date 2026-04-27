@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
+import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
@@ -18,56 +17,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(false);
-  const lettersRef = useRef<HTMLSpanElement[]>([]);
 
-  // Wave effect on mouse move
+  // Home page: hide until Hero is visible.
+  // /world route: always hidden (fullscreen portal-world experience).
+  // All other routes: always show.
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (lettersRef.current.length === 0) return;
+    if (pathname?.startsWith("/world")) {
+      setShowNavbar(false);
+      return;
+    }
 
-      lettersRef.current.forEach((letterEl) => {
-        if (!letterEl) return;
-
-        const letterRect = letterEl.getBoundingClientRect();
-        const letterX = letterRect.left + letterRect.width / 2;
-        const letterY = letterRect.top + letterRect.height / 2;
-
-        // Distance from mouse
-        const dx = letterX - e.clientX;
-        const dy = letterY - e.clientY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // Wave effect - letters move based on proximity
-        const waveRadius = 120;
-        const maxOffset = 20;
-
-        if (distance < waveRadius) {
-          const wave = Math.cos((distance / waveRadius) * Math.PI) * maxOffset;
-          gsap.to(letterEl, {
-            y: wave,
-            rotation: (wave / maxOffset) * 10,
-            duration: 0.15,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-        } else {
-          gsap.to(letterEl, {
-            y: 0,
-            rotation: 0,
-            duration: 0.4,
-            ease: "elastic.out",
-            overwrite: "auto",
-          });
-        }
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Home page: hide until Hero is visible. All other routes: always show.
-  useEffect(() => {
     const isHome = pathname === "/";
 
     if (!isHome) {
@@ -91,7 +50,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className={`fixed top-3 inset-x-0 z-50 bg-transparent transition-opacity duration-300 ${showNavbar ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+    <header data-suck className={`fixed top-3 inset-x-0 z-50 bg-transparent transition-opacity duration-300 ${showNavbar ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
       <div className="container-custom flex items-center justify-center h-16 relative">
 
         {/* Desktop Nav - Centered */}
